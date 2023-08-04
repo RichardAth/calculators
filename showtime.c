@@ -19,12 +19,19 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 #include "bignbr.h"
 #include "expression.h"
 #include "showtime.h"
 #include "output.h"
 
-#ifdef __EMSCRIPTEN__
+/* get clock time in 1/10th of a second */
+double tenths(void) {
+	clock_t now = clock();
+	return (double)now / (CLOCKS_PER_SEC / 10); ;
+}
+
+//#ifdef __EMSCRIPTEN__
 double originalTenthSecond;
 int oldTimeElapsed;
 // Convert tenths of seconds to days, hours, minutes and seconds.
@@ -70,15 +77,15 @@ void GetDHMSt(char **pptrText, int tenths)
   *pptrText = ptrText;
 }
 
-#endif
+//#endif
 
 void showElapsedTime(char **pptrOutput)
 {
   char *ptrOutput = *pptrOutput;
   copyStr(&ptrOutput, lang ? "Tiempo transcurrido: " : "Time elapsed: ");
-#ifdef __EMSCRIPTEN__
+//#ifdef __EMSCRIPTEN__
   GetDHMSt(&ptrOutput, (int)(tenths() - originalTenthSecond));
-#endif
+//#endif
   *pptrOutput = ptrOutput;
 }
 

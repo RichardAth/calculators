@@ -18,6 +18,7 @@
 //
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include <math.h>
 #include "bignbr.h"
 #include "expression.h"
@@ -241,7 +242,7 @@ static void GetEulerTotient(char **pptrOutput)
   *pptrOutput = ptrOutput;
 }
 
-// Find Mobius as zero if some exponent is > 1, 1 if the number of factors is even, -1 if it is odd.
+// Find Möbius as zero if some exponent is > 1, 1 if the number of factors is even, -1 if it is odd.
 static void GetMobius(char **pptrOutput)
 {
   char *ptrOutput = *pptrOutput;
@@ -939,7 +940,7 @@ static void ShowFourSquares(char **pptrOutput)
   varSquared(&ptrOutput, 'b', '+');
   varSquared(&ptrOutput, 'c', '+');
   varSquared(&ptrOutput, 'd', ' ');
-  copyStr(&ptrOutput, "</p>");
+  copyStr(&ptrOutput, "\n");
   valueVar(&ptrOutput, 'a', &Quad1);
   valueVar(&ptrOutput, 'b', &Quad2);
   valueVar(&ptrOutput, 'c', &Quad3);
@@ -952,6 +953,11 @@ void ecmFrontText(char *tofactorText, bool performFactorization, char *factors)
   char *ptrOutput;
   bool isBatch;
   knownFactors = factors;
+  /* temp */
+  printf("tofactorText = %s \n", tofactorText);
+  printf(performFactorization ? "Do factorise \n" : "dont't factorise \n");
+  if (factors != NULL)
+      printf("factors = %s \n", factors);
   if (valuesProcessed == 0)
   {
     doFactorization = performFactorization;
@@ -1225,20 +1231,20 @@ void showDivisors(void)
   int nbrExponents = astFactorsMod[0].multiplicity;
   int* ptrFoundDivisors = common.divisors.foundDivisors;
   char *ptrOutput = output;
-  *ptrOutput = 'D';      // Indicate this output is the list of divisors.
+  //*ptrOutput = 'D';      // Indicate this output is the list of divisors.
   ptrOutput++;
-  copyStr(&ptrOutput, lang ? "<p>Lista de divisores:</p><ul>" :
-    "<p>List of divisors:</p><ul>");
+  copyStr(&ptrOutput, lang ? "Lista de divisores: \n" :
+    "List of divisors: \n");
   if ((tofactor.nbrLimbs == 1) && (tofactor.limbs[0].x <= 1))
   {
     if (tofactor.limbs[0].x == 0)
     {
-      copyStr(&ptrOutput, lang? "<li>Cualquier número natural</li></ul>":
-        "<li>Any natural number</li></ul>");
+      copyStr(&ptrOutput, lang? "Cualquier número natural \n":
+        "Any natural number \n");
     }
     else
     {
-      copyStr(&ptrOutput, "<li>1</li></ul>");
+      copyStr(&ptrOutput, "1 \n");
     }
     return;
   }
@@ -1324,9 +1330,9 @@ void showDivisors(void)
     {
       Bin2Dec(&ptrOutput, (const limb*)ptrIntArray + 1, arrLen, groupLen);
     }
-    copyStr(&ptrOutput, "</li>");
+    copyStr(&ptrOutput, "\n");
   }
-  copyStr(&ptrOutput, "</ul>");
+  copyStr(&ptrOutput, "\n");
   if (showMoreDivisors)
   {
     copyStr(&ptrOutput, "<p><button type=\"button\" id=\"showdiv\">");
@@ -1336,7 +1342,7 @@ void showDivisors(void)
   }
 }
 
-#ifndef _MSC_VER
+//#ifndef _MSC_VER
 EXTERNALIZE void doWork(void)
 {
   int flags;
@@ -1369,6 +1375,7 @@ EXTERNALIZE void doWork(void)
     groupLen = (groupLen * 10) + (*ptrData - '0');
     ptrData++;
   }
+  printf("grouplen = %d \n", groupLen); /* temp */
   ptrData++;             // Skip comma.
   flags = *ptrData;
   if (flags == '-')
@@ -1448,5 +1455,5 @@ EXTERNALIZE void doWork(void)
   databack(output);
 #endif
 }
-#endif
+//#endif
 #endif

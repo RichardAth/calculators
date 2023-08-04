@@ -1013,7 +1013,7 @@ void fromBlockly(const char* ptrXMLFromBlockly)
     copyStr(&ptrBlocklyOutput, lang? "<li>No hay nada para mostrar</li>":
       "<li>There is nothing to print</li>");
   }
-  copyStr(&ptrBlocklyOutput, "</ul>");
+  copyStr(&ptrBlocklyOutput, "/n");
   beginLine(&ptrBlocklyOutput);
   copyStr(&ptrBlocklyOutput, lang ? COPYRIGHT_SPANISH : COPYRIGHT_ENGLISH );
   finishLine(&ptrBlocklyOutput);

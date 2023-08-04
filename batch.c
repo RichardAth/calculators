@@ -17,6 +17,7 @@
 // along with Alpertron Calculators.  If not, see <http://www.gnu.org/licenses/>.
 //
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <math.h>
 #include "bignbr.h"
@@ -49,7 +50,7 @@ void beginLine(char** pptrOutput)
 {
   if (!fromFile)
   {
-    copyStr(pptrOutput, "<p>");
+    //copyStr(pptrOutput, "<p>");
   }
 }
 
@@ -61,7 +62,7 @@ void finishLine(char** pptrOutput)
   }
   else
   {
-    copyStr(pptrOutput, "</p>");
+    copyStr(pptrOutput, "\n");
   }
 }
 
@@ -328,7 +329,7 @@ static bool ProcessLoop(bool* pIsBatch, const char* batchText, BigInteger* value
       }
       else
       {
-        copyStr(&ptrOutput, "</li><li>");
+        copyStr(&ptrOutput, "\n");
       }
       valuesProcessed++;
     }
@@ -340,6 +341,10 @@ enum eExprErr BatchProcessing(char *batchText, BigInteger *valueFound, char **pp
   bool *pIsBatch, pBatchCallback batchCallback)
 {
   enum eExprErr rc = EXPR_OK;
+
+  printf("BatchProcessing: Batchtext = %s \nisBatch = ", batchText); /* temp */
+  printf(*pIsBatch ? "true\n" : "false\n");                          /* temp */
+
   errorDisplayed = false;
   ptrExprToProcess = NULL;
   ptrOutput = output;
@@ -351,7 +356,7 @@ enum eExprErr BatchProcessing(char *batchText, BigInteger *valueFound, char **pp
   }
   else
   {
-    copyStr(&ptrOutput, "2<ul><li>");
+    copyStr(&ptrOutput, "\n");
   }
   endValuesProcessed = valuesProcessed + 1000;
   if (pIsBatch != NULL)
@@ -426,6 +431,11 @@ enum eExprErr BatchProcessing(char *batchText, BigInteger *valueFound, char **pp
         output[0] = (fromFile ? 'A' : '6');  // Show Continue button.
       }
       rc = ComputeExpression(ptrSrcString, valueFound, false);
+      /* temp */
+     /* printf("BatchProcessing: ComputeExpression returns rc = %d valufound = ", (int)rc);
+      PrintBigInteger(valueFound, 6);
+      putchar('\n');*/
+
       if (rc == EXPR_OK)
       {
         callback(&ptrOutput);
@@ -445,7 +455,7 @@ enum eExprErr BatchProcessing(char *batchText, BigInteger *valueFound, char **pp
       }
       else
       {
-        copyStr(&ptrOutput, "</li><li>");
+        copyStr(&ptrOutput, "\n");
       }
       valuesProcessed++;
     }
@@ -482,7 +492,7 @@ enum eExprErr BatchProcessing(char *batchText, BigInteger *valueFound, char **pp
   }
   if (!fromFile)
   {
-    ptrOutput -= 4;            // Erase start tag <li> without contents.
+    ptrOutput -= 1;            // Erase start tag <li> without contents.
   }
   if (counterC == 1)
   {
@@ -502,7 +512,7 @@ enum eExprErr BatchProcessing(char *batchText, BigInteger *valueFound, char **pp
   }
   else
   {
-    copyStr(&ptrOutput, "</ul>");
+    copyStr(&ptrOutput, "\n");
   }
   *pptrOutput = ptrOutput;
   return rc;

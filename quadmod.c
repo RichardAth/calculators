@@ -20,6 +20,7 @@
 #define _QUADMOD_H
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <math.h>
 #include "bignbr.h"
@@ -53,7 +54,7 @@ static int Show(const BigInteger *num, const char *str, int t)
     }
     if (num->sign == SIGN_NEGATIVE)
     {
-      copyStr(&ptrOutput, " &minus;");
+      copyStr(&ptrOutput, " -");
     }
     if ((num->nbrLimbs != 1) || (num->limbs[0].x != 1))
     {    // num is not 1 or -1.
@@ -83,9 +84,15 @@ void Show1(const BigInteger *num, int t)
 void Solution(BigInteger *value)
 {
   SolNbr++;
-  copyStr(&ptrOutput, "<li>x = ");
+  int2dec(&ptrOutput, SolNbr);
+  copyStr(&ptrOutput, " x = ");
   BigInteger2Dec(&ptrOutput, value, groupLen);
-  copyStr(&ptrOutput, "</li>");
+  copyStr(&ptrOutput, "\n");
+
+  /* temp */
+  printf("solution nbr %4d ", SolNbr);
+  PrintBigInteger(value, 0);
+  putchar('\n');
 }
 
 // Solve Ax^2 + Bx + C = 0 in integers.
@@ -227,28 +234,28 @@ void quadmodText(const char *quadrText, const char *linearText, const char *cons
   char *ptrBeginSol;
   enum eExprErr rc;
   ptrOutput = output;
-  *ptrOutput = '2';  // Prefix for sending output to screen.
-  ptrOutput++;
+  //*ptrOutput = '2';  // Prefix for sending output to screen.
+  //ptrOutput++;
   rc = ComputeExpression(quadrText, &ValA, false);
   if (rc != EXPR_OK)
   {
-    copyStr(&ptrOutput, lang ? "<p>Coeficiente cuadrático: ": "<p>Quadratic coefficient: ");
+    copyStr(&ptrOutput, lang ? "Coeficiente cuadrático: ": "Quadratic coefficient: ");
     textErrorQuadMod(&ptrOutput, rc);
-    copyStr(&ptrOutput, "</p>");
+    //copyStr(&ptrOutput, "/n");
   }
   rc = ComputeExpression(linearText, &ValB, false);
   if (rc != EXPR_OK)
   {
-    copyStr(&ptrOutput, lang ? "<p>Coeficiente lineal: " : "<p>Linear coefficient: ");
+    copyStr(&ptrOutput, lang ? "Coeficiente lineal: " : "Linear coefficient: ");
     textErrorQuadMod(&ptrOutput, rc);
-    copyStr(&ptrOutput, "</p>");
+    copyStr(&ptrOutput, "/n");
   }
   rc = ComputeExpression(constText, &ValC, false);
   if (rc != EXPR_OK)
   {
-    copyStr(&ptrOutput, lang ? "<p>Término independiente: " : "<p>Constant coefficient: ");
+    copyStr(&ptrOutput, lang ? "Término independiente: " : "Constant coefficient: ");
     textErrorQuadMod(&ptrOutput, rc);
-    copyStr(&ptrOutput, "</p>");
+    copyStr(&ptrOutput, "/n");
   }
   rc = ComputeExpression(modText, &ValN, false);
   if ((rc == EXPR_OK) && (ValN.sign == SIGN_NEGATIVE))
@@ -259,20 +266,21 @@ void quadmodText(const char *quadrText, const char *linearText, const char *cons
   {
     copyStr(&ptrOutput, lang ? "Módulo: " : "Modulus: ");
     textErrorQuadMod(&ptrOutput, rc);
-    copyStr(&ptrOutput, "</p>");
+    copyStr(&ptrOutput, "/n");
   }
-  if (ptrOutput == &output[1])
+  if (ptrOutput == output)
   {    // No errors found.
-    copyStr(&ptrOutput, "<p>");
-    int u = Show(&ValA, " x&sup2;", 2);
+    //copyStr(&ptrOutput, "<p>");
+    int u = Show(&ValA, "x^2", 2);
     u = Show(&ValB, " x", u);
     Show1(&ValC, u);
-    copyStr(&ptrOutput, " &equiv; 0 (mod ");
+    copyStr(&ptrOutput, " = 0 (mod ");
     BigInteger2Dec(&ptrOutput, &ValN, groupLen);
-    copyStr(&ptrOutput, ")</p>");
-    SolNbr = 0;
+    copyStr(&ptrOutput, ")\n");
+     SolNbr = 0;
     ptrBeginSol = ptrOutput;
-    copyStr(&ptrOutput, "<ol>");
+    copyStr(&ptrOutput, "\n");
+    //(void)printf("%s\n", output); /* temp */
     if (BigIntIsZero(&ValN))
     {        // Mod zero => Equation in integer numbers
       SolveIntegerEquation();
@@ -284,16 +292,17 @@ void quadmodText(const char *quadrText, const char *linearText, const char *cons
     if (SolNbr == 0)
     {
       ptrOutput = ptrBeginSol;
-      copyStr(&ptrOutput, lang? "<p>No hay soluciones.</p>": "<p>There are no solutions.</p>");
+      copyStr(&ptrOutput, lang? "\nNo hay soluciones.\n": "\nThere are no solutions.\n");
     }
     else
     {
-      copyStr(&ptrOutput, "</ol>");
+      copyStr(&ptrOutput, "\n");
+      //(void)printf("%s\n", output); /* temp */
     }
   }
-  copyStr(&ptrOutput, "<p>");
+  //copyStr(&ptrOutput, "<p>");
   copyStr(&ptrOutput, lang ? COPYRIGHT_SPANISH: COPYRIGHT_ENGLISH);
-  copyStr(&ptrOutput, "</p>");
+  copyStr(&ptrOutput, "\n");
 }
 
 #if defined __EMSCRIPTEN__ && !defined _MSC_VER

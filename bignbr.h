@@ -117,7 +117,7 @@ void AddBigInt(const limb *pAddend1, const limb *pAddend2, limb *pSum, int nbrLi
 void SubtractBigInt(const limb* pMinuend, const limb* pSubtrahend, limb *pDiff, int nbrLimbs);
 bool BigIntIsZero(const BigInteger *value);
 bool BigIntIsOne(const BigInteger* value);
-bool BigIntEqual(const BigInteger *value1, const BigInteger *value2);
+bool TestBigNbrEqual(const BigInteger *value1, const BigInteger *value2);
 void BigIntChSign(BigInteger *value);
 void BigIntAdd(const BigInteger *pAddend1, const BigInteger *pAddend2, BigInteger *pSum);
 void BigIntSubt(const BigInteger* pMinuend, const BigInteger* pSubtrahend, BigInteger* pDifference);
@@ -137,6 +137,7 @@ enum eExprErr BigIntMultiplyPower2(BigInteger* pArg, int powerOf2);
 void BigIntMultiplyBy2(BigInteger *nbr);
 void BigIntDivideBy2(BigInteger *nbr);
 void BigInteger2Dec(char **ppDecimal, const BigInteger *pBigInt, int groupLength);
+void PrintBigInteger(const BigInteger* pBigInt, int groupLength);
 void BigInteger2Hex(char** ppDecimal, const BigInteger *pBigInt, int groupLength);
 void BigIntGcd(const BigInteger *pArg1, const BigInteger *pArg2, BigInteger *pResult);
 enum eExprErr BigIntLcm(const BigInteger* pArg1, const BigInteger* pArg2,

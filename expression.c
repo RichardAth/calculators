@@ -275,6 +275,7 @@ enum eExprErr ComputeExpression(const char *expr, BigInteger *ExpressionResult,
   int offset;
 #endif
   int stackIndexThreshold = DO_NOT_SHORT_CIRCUIT;
+
 #ifdef USING_BLOCKLY
   if (ExpressionResult != NULL)
   {
@@ -1006,7 +1007,7 @@ enum eExprErr ComputeExpression(const char *expr, BigInteger *ExpressionResult,
         return retcode;
       }
       intToBigInteger(&curStack,
-        (BigIntEqual(&curStack, &curStack2) ? -1 : 0));
+        (TestBigNbrEqual(&curStack, &curStack2) ? -1 : 0));
       break;
     case OPER_NOT_EQUAL:
       retcode = getParms(2, stackIndexThreshold);
@@ -1019,7 +1020,7 @@ enum eExprErr ComputeExpression(const char *expr, BigInteger *ExpressionResult,
         return retcode;
       }
       intToBigInteger(&curStack,
-        (BigIntEqual(&curStack, &curStack2) ? 0 : -1));
+        (TestBigNbrEqual(&curStack, &curStack2) ? 0 : -1));
       break;
 
     case OPER_GREATER:

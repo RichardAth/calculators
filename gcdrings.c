@@ -64,13 +64,13 @@ void GaussianGCD(BigInteger *realA, BigInteger *imagA, BigInteger *realB, BigInt
   {
     bool GcdIsAtimesD = false;
     int type;
-    if (BigIntEqual(realA, realB) && BigIntEqual(imagA, imagB))
+    if (TestBigNbrEqual(realA, realB) && TestBigNbrEqual(imagA, imagB))
     {         // A and B are associates.
       GcdIsAtimesD = true;
     }
     BigIntChSign(realB);
     BigIntChSign(imagB);
-    if (BigIntEqual(realA, realB) && BigIntEqual(imagA, imagB))
+    if (TestBigNbrEqual(realA, realB) && TestBigNbrEqual(imagA, imagB))
     {         // A and B are associates.
       GcdIsAtimesD = true;
     }
@@ -489,8 +489,8 @@ void QuaternionGCD(BigInteger *scalarA, BigInteger *vecIA, BigInteger *vecJA, Bi
     bool GcdIsAtimesD = false;
     int exponA;
     int exponB;
-    if (BigIntEqual(scalarA, scalarB) && BigIntEqual(vecIA, vecIB) &&
-      BigIntEqual(vecJA, vecJB) && BigIntEqual(vecKA, vecKB))
+    if (TestBigNbrEqual(scalarA, scalarB) && TestBigNbrEqual(vecIA, vecIB) &&
+      TestBigNbrEqual(vecJA, vecJB) && TestBigNbrEqual(vecKA, vecKB))
     {         // A and B are associates.
       GcdIsAtimesD = true;
     }
@@ -498,8 +498,8 @@ void QuaternionGCD(BigInteger *scalarA, BigInteger *vecIA, BigInteger *vecJA, Bi
     BigIntChSign(vecIB);
     BigIntChSign(vecJB);
     BigIntChSign(vecKB);
-    if (BigIntEqual(scalarA, scalarB) && BigIntEqual(vecIA, vecIB) &&
-      BigIntEqual(vecJA, vecJB) && BigIntEqual(vecKA, vecKB))
+    if (TestBigNbrEqual(scalarA, scalarB) && TestBigNbrEqual(vecIA, vecIB) &&
+      TestBigNbrEqual(vecJA, vecJB) && TestBigNbrEqual(vecKA, vecKB))
     {         // A and B are associates.
       GcdIsAtimesD = true;
     }

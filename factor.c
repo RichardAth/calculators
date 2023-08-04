@@ -1923,7 +1923,7 @@ void factorExt(const BigInteger *toFactor, const int *number,
             {      // Test whether the cofactor is multiple of power.
               (void)BigIntDivide(&common.trialDiv.cofactor, &common.trialDiv.power[index], &common.trialDiv.quotient);
               (void)BigIntMultiply(&common.trialDiv.quotient, &common.trialDiv.power[index], &common.trialDiv.temp);
-              if (!BigIntEqual(&common.trialDiv.temp, &common.trialDiv.cofactor))
+              if (!TestBigNbrEqual(&common.trialDiv.temp, &common.trialDiv.cofactor))
               {    // Not a multiple, so exit loop.
                 break;
               }
@@ -1939,7 +1939,7 @@ void factorExt(const BigInteger *toFactor, const int *number,
               deltaIndex >>= 1;
               (void)BigIntDivide(&common.trialDiv.cofactor, &common.trialDiv.power[index], &common.trialDiv.quotient);
               (void)BigIntMultiply(&common.trialDiv.quotient, &common.trialDiv.power[index], &common.trialDiv.temp);
-              if (BigIntEqual(&common.trialDiv.temp, &common.trialDiv.cofactor))
+              if (TestBigNbrEqual(&common.trialDiv.temp, &common.trialDiv.cofactor))
               {    // It is a multiple.
                 CopyBigInt(&common.trialDiv.cofactor, &common.trialDiv.quotient);
                 exponent += deltaIndex;

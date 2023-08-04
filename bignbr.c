@@ -1345,7 +1345,7 @@ int PowerCheck(const BigInteger *pBigNbr, BigInteger *pBase)
       }
       intToBigInteger(pBase, base);
       (void)BigIntPowerIntExp(pBase, Exponent, &Temp3);
-      if (BigIntEqual(&Temp3, pBigNbr))
+      if (TestBigNbrEqual(&Temp3, pBigNbr))
       {
         return Exponent;
       }
@@ -2126,7 +2126,7 @@ int BpswPrimalityTest(const BigInteger *pValue)
   squareRoot(pValue->limbs, tmp.limbs, pValue->nbrLimbs, &tmp.nbrLimbs);
   tmp.sign = SIGN_POSITIVE;
   (void)BigIntMultiply(&tmp, &tmp, &tmp);
-  if (BigIntEqual(pValue, &tmp))
+  if (TestBigNbrEqual(pValue, &tmp))
   {                  // Number is perfect square.
 #if defined(__EMSCRIPTEN__) && defined(FACTORIZATION_APP)
     StepECM = 0;     // Do not show progress.
@@ -2207,30 +2207,6 @@ bool BigIntIsOne(const BigInteger* value)
     return true;     // Number is zero.
   }
   return false;      // Number is not zero.
-}
-
-bool BigIntEqual(const BigInteger *value1, const BigInteger *value2)
-{
-  int nbrLimbs;
-  const limb *ptrValue1;
-  const limb *ptrValue2;
-  if ((value1->nbrLimbs != value2->nbrLimbs) || (value1->sign != value2->sign))
-  {
-    return false;    // Numbers are not equal.
-  }
-  nbrLimbs = value1->nbrLimbs;
-  ptrValue1 = value1->limbs;
-  ptrValue2 = value2->limbs;
-  for (int index = 0; index < nbrLimbs; index++)
-  {
-    if (ptrValue1->x != ptrValue2->x)
-    {
-      return false;  // Numbers are not equal.
-    }
-    ptrValue1++;
-    ptrValue2++;
-  }
-  return true;       // Numbers are equal.
 }
 
 double getMantissa(const limb *ptrLimb, int nbrLimbs)

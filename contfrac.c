@@ -175,7 +175,7 @@ static void PeriodicContinuedFraction(bool isContinuation)
     if (startPeriodNum.sign == SIGN_POSITIVE)
     {             // Already inside period.
       periodIndex++;
-      if (BigIntEqual(&num, &startPeriodNum) && BigIntEqual(&den, &startPeriodDen))
+      if (TestBigNbrEqual(&num, &startPeriodNum) && TestBigNbrEqual(&den, &startPeriodDen))
       {           // New period started.
         ended = true;
         break;    // Go out in this case.

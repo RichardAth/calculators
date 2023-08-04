@@ -1,4 +1,4 @@
-//
+﻿//
 // This file is part of Alpertron Calculators.
 //
 // Copyright 2015-2021 Dario Alejandro Alpern
@@ -27,6 +27,27 @@
 #include "batch.h"
 #include "polynomial.h"
 #include "fromBlockly.h"
+
+/* DEBUG_CODE 1; fsquares
+   DEBUG_CODE 2; fcubes
+   DEBUG_CODE 3; arithmetic tests
+   DEBUG CODE 4; division test
+              5; fcubes
+              6; contFrac
+              7; fsquares
+              8; Modular Inverse
+              9; Polynomial factorisation
+              11; Base powe modulus
+              12; gaussian
+              13; factorisation (ECM)
+              14; conversion
+              15;  doWork fcubes? ecm?
+   DEBUG CODE 16 Quadratic Modular Equation Solver
+   DEBUG CODE 17 Generic 2 variable equation solver */
+
+#define DEBUG_CODE 16
+
+
 #ifndef DEBUG_CODE
 #define DEBUG_CODE 13
 #endif
@@ -309,17 +330,42 @@ int main(int argc, char* argv[])
     textInput[200] = 0;
   }
 #elif DEBUG_CODE == 15
-  (void)memcpy(inputString, "6,-2,00102^1042+1""\0""2^1042+1=5^1(0)*16673^1(0)*627186185377^1(16673)*131294792925870751515684960383613518415615538737991528767912593379854404518341858118366491474959205710499826133822402120149306175263402700301^1(16673)*6864797660130609714981900799081393217269435300143305409394463459185543183397652346775704046543201000705776033378429553397612687501667381169885775070966579201^1(2)""\0\0""222""\0", 10001314 - 10000928 + 1);
-  doWork();
+  (void)memcpy(inputString, "6,-2,000002^211+1""\0""2^211+1=3^1(0)*4643^1(0)*9878177^1(16673)*5344743097^1(16673)*199061567251^1(16673)*22481127512575175864234185190299^1(16673)""\0\0""222""\0", 10001314 - 10000928 + 1);
+  (void)doWork();
+  printf("%s\n", output);
 #elif DEBUG_CODE == 16
   if (argc != 5)
   {
-    (void)printf("Enter: quadr linear const modulus\n");
-    return 1;
+    char A[50], B[50], C[50], N[50];
+    printf("Quadratic Modular Equation Solver\n");
+    printf("solve equations of the form Ax^2 + Bx + C = 0 (mod N) where"
+        " the unknown integer x is in the range 0 <= x < N. \n");
+    printf("In particular, it can find modular square roots by setting "
+        "A = -1, B = 0, C = number whose root we want to find and N = modulus.\n");
+
+    printf("Enter value for A: ");
+    fgets(A, sizeof(A), stdin);
+    if (A[strlen(A) - 1] == '\n') A[strlen(A) - 1] = '\0'; /* remove trailing \n */
+
+    printf("Enter value for B: ");
+    fgets(B, sizeof(B), stdin);
+    if (B[strlen(B) - 1] == '\n') B[strlen(B) - 1] = '\0'; /* remove trailing \n */
+
+    printf("Enter value for C: ");
+    fgets(C, sizeof(C), stdin);
+    if (C[strlen(C) - 1] == '\n') C[strlen(C) - 1] = '\0'; /* remove trailing \n */
+
+    printf("Enter value for N: ");
+    fgets(N, sizeof(N), stdin);
+    if (N[strlen(N) - 1] == '\n') N[strlen(N) - 1] = '\0'; /* remove trailing \n */
+
+    quadmodText(A, B, C, N, 6);
+    printf("%s\n", output);
+    return 0;
   }
   quadmodText(argv[1], argv[2], argv[3], argv[4], 6);
-  quadmodText(argv[1], argv[2], argv[3], argv[4], 6);
   (void)printf("%s\n", output);
+  
 #elif DEBUG_CODE == 17
   if (argc != 8)
   {
@@ -460,33 +506,5 @@ int main(int argc, char* argv[])
 #endif
   return 0;
 }
-#ifdef __EMSCRIPTEN__
-void databack(const char* data)
-{
-  (void)printf("%s\n", data);
-}
 
-double tenths(void)
-{
-  return 0;
-}
-
-void startSkipTest(void)
-{
-  // Nothing to do in this stub implementation.
-}
-
-void endSkipTest(void)
-{
-  // Nothing to do in this stub implementation.
-}
-
-void getCunn(const char* url, char* factorsFromServer)
-{
-  (void)url;
-  (void)factorsFromServer;
-  // Nothing to do in this stub implementation.
-}
-
-#endif
 

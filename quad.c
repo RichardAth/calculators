@@ -654,10 +654,10 @@ static void ShowSolutionsModPrime(int factorIndex, int expon, const BigInteger *
   showText(": ");
   do
   {
-    bool oneSolution = BigIntEqual(&common.quad.Solution1[factorIndex],
+    bool oneSolution = TestBigNbrEqual(&common.quad.Solution1[factorIndex],
       &common.quad.Solution2[factorIndex]);
     BigIntAdd(&ValH, pIncrement, &ValI);   // Next value.
-    last = BigIntEqual(&primePower, &ValI);
+    last = TestBigNbrEqual(&primePower, &ValI);
     if (!BigIntIsZero(&ValH))
     {
       if (last && oneSolution)
@@ -1237,7 +1237,7 @@ static void DiscriminantIsZero(void)
     squareRoot(ValV.limbs, ValG.limbs, ValV.nbrLimbs, &ValG.nbrLimbs);
     ValG.sign = SIGN_POSITIVE;          // g <- sqrt(v).
     (void)BigIntMultiply(&ValG, &ValG, &Aux[3]);
-    if (!BigIntEqual(&ValV, &Aux[3]))
+    if (!TestBigNbrEqual(&ValV, &Aux[3]))
     {   // v is not perfect square.
       if (teach)
       {
@@ -2910,7 +2910,7 @@ static void ContFrac(BigInteger *value, enum eShowSolution solutionNbr)
       if (startPeriodU.sign == SIGN_POSITIVE)
       {               // Already inside period.
         periodIndex++;
-        if (BigIntEqual(&ValU, &startPeriodU) && BigIntEqual(&ValV, &startPeriodV))
+        if (TestBigNbrEqual(&ValU, &startPeriodU) && TestBigNbrEqual(&ValV, &startPeriodV))
         {             // New period started.
           break;      // Go out in this case.
         }
@@ -2994,7 +2994,7 @@ static void ContFrac(BigInteger *value, enum eShowSolution solutionNbr)
     if (startPeriodU.sign == SIGN_POSITIVE)
     {               // Already inside period.
       periodIndex++;
-      if (BigIntEqual(&ValU, &startPeriodU) && BigIntEqual(&ValV, &startPeriodV))
+      if (TestBigNbrEqual(&ValU, &startPeriodU) && TestBigNbrEqual(&ValV, &startPeriodV))
       {             // New period started.
         if ((periodIndex & 1) == 0)
         {           // Two periods of period length is odd, one period if even.
@@ -3206,7 +3206,7 @@ static void ContFracPell(void)
         CopyBigInt(&ValVBak, &ValV);
       }
       periodLength++;
-    } while ((periodLength == 1) || !BigIntEqual(&ValU, &ValUBak) || !BigIntEqual(&ValV, &ValVBak));
+    } while ((periodLength == 1) || !TestBigNbrEqual(&ValU, &ValUBak) || !TestBigNbrEqual(&ValV, &ValVBak));
     intToBigInteger(&ValU, 0);    // Reset values of U and V.
     intToBigInteger(&ValV, 1);
   }
@@ -3566,7 +3566,7 @@ void SolveQuadEquation(void)
   squareRoot(discr.limbs, ValG.limbs, discr.nbrLimbs, &ValG.nbrLimbs);
   ValG.sign = SIGN_POSITIVE;
   (void)BigIntMultiply(&ValG, &ValG, &bigTmp);
-  if (BigIntEqual(&bigTmp, &discr))
+  if (TestBigNbrEqual(&bigTmp, &discr))
   {   // Discriminant is a perfect square.
     PerfectSquareDiscriminant();
     return;

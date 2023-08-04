@@ -490,6 +490,14 @@ void BigInteger2Dec(char **ppDecimal, const BigInteger *pBigInt, int groupLength
   *ppDecimal = ptrDecimal;
 }
 
+/* instant print */
+void PrintBigInteger(const BigInteger* pBigInt, int groupLength) {
+    char buffer[5000] = { 0 };
+    char* pbuffer = buffer;
+    BigInteger2Dec(&pbuffer, pBigInt, groupLength);
+    printf("%s", buffer);
+}
+
 void BigInteger2Hex(char** ppDecimal, const BigInteger* pBigInt, int groupLength)
 {
   char* ptrDecimal = *ppDecimal;

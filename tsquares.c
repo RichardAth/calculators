@@ -175,7 +175,7 @@ bool FindTwoSquaresNoNumTheory(void)
       squareRoot(c.limbs, biMult2.limbs, c.nbrLimbs, &biMult2.nbrLimbs);
       biMult2.sign = SIGN_POSITIVE;   // sqrRoot <- sqrt(c)
       (void)BigIntMultiply(&biMult2, &biMult2, &val); // val <- sqroot^2
-      if (BigIntEqual(&c, &val))
+      if (TestBigNbrEqual(&c, &val))
       {
         intToBigInteger(&c, iterNbr);       // c <- m * iterNbr
         BigIntSubt(&biMult1, &c, &biMult1);
